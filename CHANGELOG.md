@@ -13,4 +13,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://github.com/KathrinShpigel/CurrencyInformant/commits/master
-[0.0.1]: https://github.com/KathrinShpigel/CurrencyInformant/commit/828204d3fef93791068ea22c6e23d97fb3d515c6
+[0.0.1]: https://github.com/KathrinShpigel/CurrencyInformant/commit/c638a11efd07f6c399d50e312e87fdcc8d567743
