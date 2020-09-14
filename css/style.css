@@ -2,78 +2,198 @@ html {
     box-sizing: border-box;
     scroll-behavior: smooth;
 }
-
 *,*::after,*::before {
     box-sizing: inherit;
     margin: 0;
     padding: 0;
 }
-
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
     font-size: 16px;
     line-height: 34px;
     color: rgb(0, 0, 0);
+    background-color: rgba(128, 128, 128, .1);
 }
-
 .container {
     max-width: 1230px;
     padding-left: 15px;
     padding-right: 15px;
     margin: 0 auto;
+    background-color: #fff;
+    border-radius: 7px;
+    border: 1px solid rgb(224, 230, 246);
 }
-
 .header {
     font-weight: 700;
     font-size: 30px;
     letter-spacing: 2px;
     text-align: center;
-    padding: 60px 20px 100px;
+    padding: 30px 20px 100px;
     background-color: rgba(19, 7, 7, 0.685);
     color: rgb(224, 230, 246);
 }
-
 .section {
     position: relative;
 }
-
+.section__title {
+    text-align: center;
+    font-size: 24px;
+    padding-bottom: 20px;
+}
 .section-info {
     position: absolute;
-    top: -40px;
+    top: -60px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #fff;
-    border: 1px solid rgb(224, 230, 246);
-    border-radius: 7px;
     padding: 5px;
+    border-radius: 7px;
 }
-
-.section__title {
-    text-align: center;
+.info__titles {
+    min-width: 160px;
+    padding: 5px 10px;
 }
-
+.info__time {
+    font-weight: 700;
+}
 .info__list {
     display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: baseline;
+    padding: 0 5px;
 }
-
-.item__top {
-    font-size: 14px;
-    line-height: 25px;
-}
-
-.item__bottom {
-    font-size: 10px;
-    line-height: 21px;
-}
-
-.info__item {
-    padding: 5px;
-    border-left: 1px solid rgb(167, 164, 164);
-}
-
 .info__subtitle {
-    border-left: none;
+    font-size: 12.5px;
+}
+.info__content {
+    min-width: 145px;
+    padding: 5px 10px;
+    border-left: 1px solid rgba(128, 128, 128, .4);
+}
+.content__bottom {
+    font-size: 12.5px;
+}
+.change__info {
+    margin-left: 5px;
+}
+.change__up .top__value,
+.change__up .change__info {
+    color: #469E00;
+}
+.change__down .top__value,
+.change__down .change__info {
+    color: #FF0000;
+}
+.top__name {
+    font-weight: 700;
+}
+.top__value {
+    font-weight: 700;
+}
+.top__img {
+    width: 30px;
+    height: 15px;
+}
+.bottom__value {
+    font-weight: 700;
+}
+
+.main {
+    margin-top: 100px;
+    padding: 5px 15px;
+}
+.main__title {
+    text-align: center;
+    font-size: 24px;
+    line-height: 48px;
+    padding: 20px;
+}
+
+/* period */
+
+.form {
+    background-color: rgba(19, 7, 7, 0.685);
+    color: rgb(224, 230, 246);
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    margin: 0 auto;
+    padding: 5px;
+}
+.select__wrapper {
+    padding: 5px;
+}
+.select__label {
+    pointer-events: none;
+}
+.form__select {
+    border: none;
+    outline: none;
+    border: 1px solid rgba(19, 7, 7, 0.9);
+    border-radius: 7px;
+    background-color: #fff;
+    padding: 7px;
+    margin-right: 10px;
+}
+.form__btn {
+    padding: 7px;
+    border: none;
+    outline: none;
+    border: 1px solid rgba(19, 7, 7, 0.9);
+    border-radius: 7px;
+    background-color: #fff;
+    transition: all .4s;
+}
+.form__btn:hover {
+    border-color: rgba(19, 7, 7, 0.1);
+}
+.form__btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(236, 236, 236, .4);
+}
+
+/* /period */
+
+/* chart */
+.chart {
+    padding: 30px 15px;
+}
+.highcharts-figure, .highcharts-data-table table {
+    min-width: 360px; 
+    max-width: 800px;
+    margin: 1em auto;
+}
+.highcharts-data-table table {
+	font-family: Verdana, sans-serif;
+	border-collapse: collapse;
+	border: 1px solid #EBEBEB;
+	margin: 10px auto;
+	text-align: center;
+	width: 100%;
+	max-width: 500px;
+}
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+.highcharts-data-table th {
+	font-weight: 600;
+    padding: 0.5em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    padding: 0.5em;
+}
+.highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+/* /chart */
+
+.footer {
+    margin-top: 20px;
 }

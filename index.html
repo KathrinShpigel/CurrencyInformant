@@ -6,71 +6,115 @@
     <meta name="description" content="Валютный информатор: курс валют Национального банка Республики Беларусь">
     <meta name="Keywords" content="курс валют"> 
     <title>Currency informant</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <header class="header">
-        <div class="container">
-            <h2 class="header__title">
-                Валютный информатор
-            </h2>
-        </div>
+        <h2 class="header__title">Валютный информатор</h2>
     </header>
     <section class="section">
         <div class="container">
             <div class="section-info">
                 <h3 class="section__title">Официальные курсы валют на сегодня и вчера</h3>
                 <div class="info__list">
-                    <div class="info__item info__subtitle">
-                        <div class="item__top">
-                            Курсы НБРБ на
+                    <div class="info__titles">
+                        <div class="info__title">Курсы НБРБ на
                             <time class="info__time" datetime="2020-09-08">08/09</time>
                         </div>
-                        <div class="item__bottom">
-                            Курсы валют НБРБ на
+                        <div class="info__subtitle">Курсы валют НБРБ на
                             <time class="info__time" datetime="2020-09-07">07/09</time>
                         </div>
                     </div>
-                    <div class="info__item">
-                        <div class="item__top">
-                            USD <span class="info__rate">3,2</span> BYN
+                    <div class="info__content change__up">
+                        <div class="content__top">
+                            <span class="top__name" title="USD">USD</span>
+                            <span class="top__value" title="08/09">3,2</span> BYN
+                            <img class="top__img" src="./images/arrow-up.png" alt="changing" style="margin-right: 5px;">
                         </div>
-                        <div class="item__bottom">
-                            Вчера: USD <span class="info__rate">3,2</span> BYN
-                        </div>
-                    </div>
-                    <div class="info__item">
-                        <div class="item__top">
-                            EUR <span class="info__rate">3,2</span> BYN
-                        </div>
-                        <div class="item__bottom">
-                            Вчера: EUR <span class="info__rate">3,2</span> BYN
+                        <div class="content__bottom">
+                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
+                            <span class="change__info">(+0,15)</span>
                         </div>
                     </div>
-                    <div class="info__item">
-                        <div class="item__top">
-                            RUB <span class="info__rate">3,2</span> BYN
+                    <div class="info__content change__up">
+                        <div class="content__top">
+                            <span class="top__name" title="EUR">EUR</span>
+                            <span class="top__value" title="08/09">3,2</span> BYN
+                            <img class="top__img" src="./images/arrow-up.png" alt="changing" style="margin-right: 5px;">
                         </div>
-                        <div class="item__bottom">
-                            Вчера: RUB <span class="info__rate">3,2</span> BYN
-                        </div>
-                    </div>
-                    <div class="info__item">
-                        <div class="item__top">
-                            UAH <span class="info__rate">3,2</span> BYN
-                        </div>
-                        <div class="item__bottom">
-                            Вчера: UAH <span class="info__rate">3,2</span> BYN
+                        <div class="content__bottom">
+                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
+                            <span class="change__info">(+0,15)</span>
                         </div>
                     </div>
-                </div>
+                    <div class="info__content change__down">
+                        <div class="content__top">
+                            <span class="top__name" title="RUB">RUB</span>
+                            <span class="top__value" title="08/09">3,2</span> BYN
+                            <img class="top__img" src="./images/arrow-down.png" alt="changing" style="margin-right: 5px;">
+                        </div>
+                        <div class="content__bottom">
+                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
+                            <span class="change__info">(-0,15)</span>
+                        </div>
+                    </div>
+                    <div class="info__content change__up">
+                        <div class="content__top">
+                            <span class="top__name" title="UAH">UAH</span>
+                            <span class="top__value" title="08/09">3,2</span> BYN
+                            <img class="top__img" src="./images/arrow-up.png" alt="changing" style="margin-right: 5px;">
+                        </div>
+                        <div class="content__bottom">
+                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
+                            <span class="change__info">(+0,15)</span>
+                        </div>
+                    </div>
+                </div>            
             </div>
         </div>
     </section>
     <main class="main">
         <div class="container">
-            <h3 class="main__title">
-            </h3> 
+            <h3 class="main__title">Информация о валюте за период</h3>
+            <form class="form">
+                <div class="select__wrapper">
+                    <label class="select__label" for="select-cur">Выберите валюту:</label>
+                    <select class="form__select" id="select-cur" size="1" name="cur[]">
+                        <option class="form__option" selected value="Cur_name">Доллар США (USD)</option>
+                        <option class="form__option" value="Cur_name">Cur_name</option>
+                        <option class="form__option" value="Cur_name">Cur_name</option>
+                        <option class="form__option" value="Cur_name">Cur_name</option>
+                    </select>
+                </div>
+                <div class="select__wrapper">
+                    <label class="select__label" for="select-date">Выберите период:</label>
+                    <select class="form__select" id="select-date" size="1" name="date[]">
+                        <option class="form__option" selected value="1day">1 день</option>
+                        <option class="form__option" value="5day">5 дней</option>
+                        <option class="form__option" value="1month">1 месяц</option>
+                        <option class="form__option" value="1year">1 год</option>
+                        <option class="form__option" value="5year">5 лет</option>
+                        <option class="form__option" value="maxDate">Максимум</option>
+                    </select>
+                </div>
+                
+                <button class="form__btn" type="button" value="Отправить">Отправить</button>
+            </form>
+            <div class="chart">
+                <figure class="highcharts-figure">
+                    <div id="container"></div>
+                    <p class="highcharts-description">
+                        График демонстрирует тенденцию изменения валюты за указанный период в сравнении
+                        с ее медианным и средним значениями. 
+                    </p>
+                </figure>
+            </div>
         </div>
     </main>
     <footer class="footer">
@@ -80,6 +124,7 @@
             </address>
         </div>
     </footer>
+    <script src="./js/chart.js"></script>
     <script src="./js/index.js"></script>
 </body>
 </html>
