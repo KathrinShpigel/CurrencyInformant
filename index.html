@@ -84,17 +84,16 @@
                     </select>
                 </div>
                 <div class="select__wrapper">
-                    <label class="select__label select__date" for="select-date">Выберите период:</label>
-                    <select class="form__select" id="select-date" size="1" name="date[]">
-                        <option class="form__option" value="1day">1 день</option>
-                        <option class="form__option" value="5day">5 дней</option>
-                        <option class="form__option" value="1month">1 месяц</option>
-                        <option class="form__option" value="1year">1 год</option>
-                        <option class="form__option" value="5year">5 лет</option>
-                        <option class="form__option" value="maxDate">Максимум</option>
+                    <label class="select__label" for="select-date">Выберите период:</label>
+                    <select class="form__select select__date" id="select-date" size="1" name="date[]">
+                        <option class="form__option" value="oneDay">1 день</option>
+                        <option class="form__option" value="fiveDay">5 дней</option>
+                        <option class="form__option" value="oneMonth">1 месяц</option>
+                        <option class="form__option" value="oneYear">1 год</option>
+                        <option class="form__option" value="fiveYear">5 лет</option>
                     </select>
                 </div>
-                <button class="form__btn" type="button" value="Отправить">Отправить</button>
+                <button class="form__btn" type="button" value="Отправить" disabled>Отправить</button>
             </form>
             <div class="chart">
                 <figure class="highcharts-figure">
@@ -119,6 +118,7 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="./js/moment.min.js"></script>
     <script src="./js/chart.js"></script>
     <script src="./js/index.js"></script>
 </body>
