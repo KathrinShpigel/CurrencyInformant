@@ -135,6 +135,7 @@ body {
     background-color: #fff;
     padding: 7px;
     margin-right: 10px;
+    min-width: 300px;
 }
 .form__btn {
     padding: 7px;

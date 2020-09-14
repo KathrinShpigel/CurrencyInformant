@@ -6,11 +6,6 @@
     <meta name="description" content="Валютный информатор: курс валют Национального банка Республики Беларусь">
     <meta name="Keywords" content="курс валют"> 
     <title>Currency informant</title>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/series-label.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -85,17 +80,13 @@
             <form class="form">
                 <div class="select__wrapper">
                     <label class="select__label" for="select-cur">Выберите валюту:</label>
-                    <select class="form__select" id="select-cur" size="1" name="cur[]">
-                        <option class="form__option" selected value="Cur_name">Доллар США (USD)</option>
-                        <option class="form__option" value="Cur_name">Cur_name</option>
-                        <option class="form__option" value="Cur_name">Cur_name</option>
-                        <option class="form__option" value="Cur_name">Cur_name</option>
+                    <select class="form__select select__cur" id="select-cur" size="1" name="cur[]">
                     </select>
                 </div>
                 <div class="select__wrapper">
-                    <label class="select__label" for="select-date">Выберите период:</label>
+                    <label class="select__label select__date" for="select-date">Выберите период:</label>
                     <select class="form__select" id="select-date" size="1" name="date[]">
-                        <option class="form__option" selected value="1day">1 день</option>
+                        <option class="form__option" value="1day">1 день</option>
                         <option class="form__option" value="5day">5 дней</option>
                         <option class="form__option" value="1month">1 месяц</option>
                         <option class="form__option" value="1year">1 год</option>
@@ -103,7 +94,6 @@
                         <option class="form__option" value="maxDate">Максимум</option>
                     </select>
                 </div>
-                
                 <button class="form__btn" type="button" value="Отправить">Отправить</button>
             </form>
             <div class="chart">
@@ -124,6 +114,11 @@
             </address>
         </div>
     </footer>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="./js/chart.js"></script>
     <script src="./js/index.js"></script>
 </body>
