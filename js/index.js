@@ -8,7 +8,7 @@ let worker;
 
 function createInfiItem(obj) {
   const div = document.createElement('div');
-  const flag = (obj.rateToday >= obj.rateYesterday) ? 'up' : 'down';
+  const [flag, znak] = (obj.rateToday >= obj.rateYesterday) ? ['up', '+'] : ['down', ''];
   const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(4);
   div.className = `info__content change__${flag}`;
   div.innerHTML = `
@@ -19,7 +19,7 @@ function createInfiItem(obj) {
     </div>
     <div class="content__bottom">
       Вчера: <span class="bottom__value" title="22/09">${obj.rateYesterday}</span> BYN
-      <span class="change__info">(${rateChange})</span>
+      <span class="change__info">(${znak}${rateChange})</span>
     </div>
     `;
     infoList.append(div);
