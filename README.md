@@ -3,7 +3,7 @@
 __[currency-informant.netlify.app](http://currency-informant.netlify.app)__
 
 **Технологии**:
-* Java Script
+* JavaScript
 * API
 * Dayjs
 * Highcharts
