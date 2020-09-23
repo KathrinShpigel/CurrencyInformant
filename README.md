@@ -5,8 +5,8 @@ __[currency-informant.netlify.app](http://currency-informant.netlify.app)__
 **Технологии**:
 * Java Script
 * API
-* Moment.js
-* D3.js
+* Dayjs
+* Highcharts
 * Web Workers
 * LocalStorage
 * CSS3
