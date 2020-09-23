@@ -20,54 +20,10 @@
                 <div class="info__list">
                     <div class="info__titles">
                         <div class="info__title">Курсы НБРБ на
-                            <time class="info__time" datetime="2020-09-08">08/09</time>
+                            <time class="info__time" datetime="2020-09-08">23/09</time>
                         </div>
                         <div class="info__subtitle">Курсы валют НБРБ на
-                            <time class="info__time" datetime="2020-09-07">07/09</time>
-                        </div>
-                    </div>
-                    <div class="info__content change__up">
-                        <div class="content__top">
-                            <span class="top__name" title="USD">USD</span>
-                            <span class="top__value" title="08/09">3,2</span> BYN
-                            <img class="top__img" src="./images/arrow-up.png" alt="changing" style="margin-right: 5px;">
-                        </div>
-                        <div class="content__bottom">
-                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
-                            <span class="change__info">(+0,15)</span>
-                        </div>
-                    </div>
-                    <div class="info__content change__up">
-                        <div class="content__top">
-                            <span class="top__name" title="EUR">EUR</span>
-                            <span class="top__value" title="08/09">3,2</span> BYN
-                            <img class="top__img" src="./images/arrow-up.png" alt="changing" style="margin-right: 5px;">
-                        </div>
-                        <div class="content__bottom">
-                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
-                            <span class="change__info">(+0,15)</span>
-                        </div>
-                    </div>
-                    <div class="info__content change__down">
-                        <div class="content__top">
-                            <span class="top__name" title="RUB">RUB</span>
-                            <span class="top__value" title="08/09">3,2</span> BYN
-                            <img class="top__img" src="./images/arrow-down.png" alt="changing" style="margin-right: 5px;">
-                        </div>
-                        <div class="content__bottom">
-                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
-                            <span class="change__info">(-0,15)</span>
-                        </div>
-                    </div>
-                    <div class="info__content change__up">
-                        <div class="content__top">
-                            <span class="top__name" title="UAH">UAH</span>
-                            <span class="top__value" title="08/09">3,2</span> BYN
-                            <img class="top__img" src="./images/arrow-up.png" alt="changing" style="margin-right: 5px;">
-                        </div>
-                        <div class="content__bottom">
-                            Вчера: <span class="bottom__value" title="07/09">3,2</span> BYN
-                            <span class="change__info">(+0,15)</span>
+                            <time class="info__time" datetime="2020-09-07">22/09</time>
                         </div>
                     </div>
                 </div>            
@@ -79,28 +35,32 @@
             <h3 class="main__title">Информация о валюте за период</h3>
             <form class="form">
                 <div class="select__wrapper">
-                    <label class="select__label" for="select-cur">Выберите валюту:</label>
+                    <label class="select__label" for="select-cur">Валюта:</label>
                     <select class="form__select select__cur" id="select-cur" size="1" name="cur[]">
                     </select>
                 </div>
                 <div class="select__wrapper">
-                    <label class="select__label" for="select-date">Выберите период:</label>
-                    <select class="form__select select__date" id="select-date" size="1" name="date[]">
+                    <label class="select__label" for="select-data">Дата:</label>
+                    <select class="form__select select__data" id="select-data" size="1" name="data[]">
+                    </select>
+                </div>
+                <div class="select__wrapper">
+                    <label class="select__label" for="select-period">Период:</label>
+                    <select class="form__select select__period" id="select-period" size="1" name="period[]">
                         <option class="form__option" value="oneDay">1 день</option>
-                        <option class="form__option" value="fiveDay">5 дней</option>
+                        <option class="form__option" value="oneWeek">1 неделя</option>
                         <option class="form__option" value="oneMonth">1 месяц</option>
                         <option class="form__option" value="oneYear">1 год</option>
                         <option class="form__option" value="fiveYear">5 лет</option>
                     </select>
                 </div>
-                <button class="form__btn" type="button" value="Отправить" disabled>Отправить</button>
+                <button class="form__btn" type="button" value="Отправить" disabled>Получить данные</button>
             </form>
             <div class="chart">
                 <figure class="highcharts-figure">
                     <div id="container"></div>
                     <p class="highcharts-description">
-                        График демонстрирует тенденцию изменения валюты за указанный период в сравнении
-                        с ее медианным и средним значениями. 
+                        График демонстрирует тенденцию изменения валюты за указанный период. 
                     </p>
                 </figure>
             </div>
@@ -118,7 +78,6 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="./js/moment.min.js"></script>
     <script src="./js/chart.js"></script>
     <script src="./js/index.js"></script>
 </body>

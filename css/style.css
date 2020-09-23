@@ -67,7 +67,8 @@ body {
     font-size: 12.5px;
 }
 .info__content {
-    min-width: 145px;
+    cursor: pointer;
+    min-width: 165px;
     padding: 5px 10px;
     border-left: 1px solid rgba(128, 128, 128, .4);
 }
@@ -135,7 +136,8 @@ body {
     background-color: #fff;
     padding: 7px;
     margin-right: 10px;
-    min-width: 300px;
+    min-width: 100px;
+    max-width: 200px;
 }
 .form__btn {
     padding: 7px;

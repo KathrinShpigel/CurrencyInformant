@@ -1,24 +1,32 @@
 'use strict';
-const requestURLCurrency = 'https://www.nbrb.by/api/exrates/rates?periodicity=0';
-let requestURLDynamics = 'https://www.nbrb.by/API/ExRates/Rates/Dynamics';
-const selectCurList = document.querySelector('.select__cur');
-const selectDate = document.querySelector('.select__date');
-const formBtn = document.querySelector('.form__btn');
-const today = moment().format('YYYY-MM-DD');
-const period = {
-  oneDay:   today,
-  fiveDay:  endDay(5, 'days'),
-  oneMonth: endDay(1, 'months'),
-  oneYear:  endDay(1, 'year'),
-  fiveYear: endDay(5, 'year')
-};
 
-function endDay(n, measurement) {
-  return moment().clone().subtract(n, measurement).format('YYYY-MM-DD');
+const infoList = document.querySelector('.info__list');
+const selectCurList = document.querySelector('.select__cur');
+const selectDate = document.querySelector('.select__period');
+const formBtn = document.querySelector('.form__btn');
+let worker;
+
+function createInfiItem(obj) {
+  const div = document.createElement('div');
+  const flag = (obj.rateToday >= obj.rateYesterday) ? 'up' : 'down';
+  const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(4);
+  div.className = `info__content change__${flag}`;
+  div.innerHTML = `
+    <div class="content__top">
+      <span class="top__name" title="${obj.rateName}">${obj.rateName}</span>
+      <span class="top__value" title="23/09">${obj.rateToday}</span> BYN
+      <img class="top__img" src="./images/arrow-${flag}.png" alt="changing" style="margin-right: 5px;">
+    </div>
+    <div class="content__bottom">
+      Вчера: <span class="bottom__value" title="22/09">${obj.rateYesterday}</span> BYN
+      <span class="change__info">(${rateChange})</span>
+    </div>
+    `;
+    infoList.append(div);
 }
 
 function createSelectCurItem(obj) {
-  let option = document.createElement('option');
+  const option = document.createElement('option');
   option.className = 'form__option';
   option.innerHTML = obj.Cur_Name;
   option.value = obj.Cur_ID;
@@ -26,29 +34,37 @@ function createSelectCurItem(obj) {
 }
 
 if (window.Worker) {
-  const worker = new Worker('../js/worker.js');
+  worker = new Worker('../js/worker.js');
 
-  worker.postMessage(requestURLCurrency);
+  worker.postMessage('GetCurrencies');
 
-  worker.addEventListener('message', function(event) {
+  worker.onmessage = function(event) {
     event.data.forEach(el=>createSelectCurItem(el));
-
     formBtn.disabled = false;
-  });
+  }
+  getInfo();
+  getSchedule();
 }
 
-function mappedData(obj) {
-  return { Cur_ID: obj.Cur_ID, }
+function getSchedule() {
+  if (window.Worker) {
+    worker = new Worker('../js/worker.js');
+
+    worker.postMessage('GetDynamics');
+  
+    worker.onmessage = function(event) {
+    }
+  }
 }
 
-formBtn.addEventListener("click", function(e) {
-  const urlDynamics = createURLDynamics(selectCurList.value, selectDate.value, requestURLDynamics);
-  //getData(urlDynamics);
-  console.log(urlDynamics);
-});
+function getInfo() {
+  if (window.Worker) {
+    worker = new Worker('../js/worker.js');
 
-function createURLDynamics(curID, periodValue, primaryUrl) {
-  const endPeriodDay = period[periodValue];
-  const url = `${ primaryUrl }/${ curID }?startDate=${ today }T00:00:00&endDate=${ endPeriodDay }T00:00:00`;
-  return url;
+    worker.postMessage('GetInfo');
+  
+    worker.onmessage = function(event) {
+      event.data.forEach(el=>createInfiItem(el));
+    }
+  }
 }
