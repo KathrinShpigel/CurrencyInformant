@@ -2,8 +2,20 @@
 
 const infoList = document.querySelector('.info__list');
 const selectCurList = document.querySelector('.select__cur');
-const selectDate = document.querySelector('.select__period');
-const formBtn = document.querySelector('.form__btn');
+const selectDateStart = document.querySelector('.select__date-start');
+const selectDateEnd = document.querySelector('.select__date-end');
+const selectInterval = document.querySelector('.select__interval');
+const drawBtn = document.querySelector('.draw__btn');
+
+const currencies = [];
+const interval = {
+  oneDay: [1, 'DD.MM.YYYY'],
+  oneWeek: [7, 'DD.MM.YYYY'],
+  oneMonth: [1, 'MM.YYYY'],
+  oneYear: [1, 'YYYY'],
+  fiveYear: [5, 'YYYY'],
+}
+
 let worker;
 
 function createInfoItem(obj) {
@@ -33,14 +45,37 @@ function createSelectCurItem(obj) {
   selectCurList.append(option);
 }
 
-function getSchedule() {
+function getSelectOption(currenciesArr) {
+  if (window.Worker) {
+    worker = new Worker('../js/worker.js');
+  
+    worker.postMessage('GetCurrencies');
+  
+    worker.onmessage = function(event) {
+      event.data.forEach(el=>currencies.push(el));
+      currencies.forEach(el => createSelectCurItem(el));
+    }
+  }
+  drawBtn.disabled = false;
+}
+
+function getSchedule(id, dateFrom, dateTo, range) {
   if (window.Worker) {
     worker = new Worker('../js/worker.js');
 
     worker.postMessage('GetDynamics');
   
     worker.onmessage = function(event) {
-      console.log(event.data);
+      const data = event.data;
+
+      const cur = currencies.find(el => el.Cur_ID === data[0].Cur_ID);
+
+      const date = data.map(el => formatDate(el.Date, "YYYY-MM-DD", range[1]));
+
+      const dataOfficialRate = data.map(el => el.Cur_OfficialRate);
+      
+
+      buildSchedule(cur, dataOfficialRate, date);
     }
   }
 }
@@ -57,24 +92,18 @@ function getInfo() {
   }
 }
 
-function getSelectOption(currenciesArr) {
-  formBtn.disabled = false;
-  return currenciesArr.forEach(el => createSelectCurItem(el));
-}
-
 function app() {
-  const currencies = [];
+
+  getInfo();
+  getSelectOption();
   
-  if (window.Worker) {
-    worker = new Worker('../js/worker.js');
-  
-    worker.postMessage('GetCurrencies');
-  
-    worker.onmessage = function(event) {
-      event.data.forEach(el=>currencies.push(el));
-      getSelectOption(currencies);
-    }
-  }
+  drawBtn.addEventListener('click', () => {
+    const curID = selectCurList.value;
+    const dateStart = selectDateStart.value;
+    const dateEnd = selectDateEnd.value;
+    const range = interval[selectInterval.value];
+    getSchedule(curID, dateStart, dateEnd, range);
+  });
 }
 
 app();

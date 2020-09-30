@@ -1,9 +1,9 @@
 'use strict';
 
-function buildWchedule(name, data, categories) {
+function buildSchedule(obj, data, categories, interval) {
     return Highcharts.chart('container', {
         title: {
-            text: '1 доллар (USD) в белорусских рублях (BYN)'
+            text: `${ obj.Cur_Scale } ${ obj.Cur_Name } (${ obj.Cur_Abbreviation }) в белорусских рублях (BYN)`
         },
       
         subtitle: {
@@ -17,12 +17,12 @@ function buildWchedule(name, data, categories) {
         },
       
         xAxis: {
+            //tickInterval: 7 * 24 * 3600 * 1000, // one week
+            //tickWidth: 0,
+            //gridLineWidth: 1,
             accessibility: {
-                rangeDescription: 'Range: 2010 to 2017'
-            }
-        },
-
-        xAxis: {
+                rangeDescription: `Range: ${ categories[0] } to ${ categories[categories.length - 1] }`
+            },
             categories
         },
 
@@ -38,12 +38,12 @@ function buildWchedule(name, data, categories) {
                 label: {
                     connectorAllowed: false
                 },
-                pointStart: 2010
+                
             }
         },
       
         series: [{
-            name,
+            name: obj.Cur_Name,
             data
         }],
       
