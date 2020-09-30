@@ -6,6 +6,14 @@ let requestURLDynamics = 'https://www.nbrb.by/API/ExRates/Rates/Dynamics';
 onmessage = function(event) {
   switch(event.data) {
     case 'GetInfo':
+        // Promise.all([
+        //     fetch('https://www.nbrb.by/api/exrates/rates?periodicity=0').then(response => response.json()),
+        //     fetch('https://www.nbrb.by/api/exrates/rates?periodicity=0').then(response => response.json()),
+        //     fetch('https://www.nbrb.by/api/exrates/rates?periodicity=0').then(response => response.json())
+        //     ])
+        //     .then(values => { 
+        //       console.log(values); 
+        //     });
       const info = [
         {
           rateName: "USD",
