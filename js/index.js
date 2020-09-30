@@ -6,7 +6,7 @@ const selectDate = document.querySelector('.select__period');
 const formBtn = document.querySelector('.form__btn');
 let worker;
 
-function createInfiItem(obj) {
+function createInfoItem(obj) {
   const div = document.createElement('div');
   const [flag, znak] = (obj.rateToday >= obj.rateYesterday) ? ['up', '+'] : ['down', ''];
   const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(4);
@@ -21,8 +21,8 @@ function createInfiItem(obj) {
       Вчера: <span class="bottom__value" title="22/09">${obj.rateYesterday}</span> BYN
       <span class="change__info">(${znak}${rateChange})</span>
     </div>
-    `;
-    infoList.append(div);
+  `;
+  infoList.append(div);
 }
 
 function createSelectCurItem(obj) {
@@ -33,19 +33,6 @@ function createSelectCurItem(obj) {
   selectCurList.append(option);
 }
 
-if (window.Worker) {
-  worker = new Worker('../js/worker.js');
-
-  worker.postMessage('GetCurrencies');
-
-  worker.onmessage = function(event) {
-    event.data.forEach(el=>createSelectCurItem(el));
-    formBtn.disabled = false;
-  }
-  getInfo();
-  getSchedule();
-}
-
 function getSchedule() {
   if (window.Worker) {
     worker = new Worker('../js/worker.js');
@@ -53,6 +40,7 @@ function getSchedule() {
     worker.postMessage('GetDynamics');
   
     worker.onmessage = function(event) {
+      console.log(event.data);
     }
   }
 }
@@ -64,7 +52,29 @@ function getInfo() {
     worker.postMessage('GetInfo');
   
     worker.onmessage = function(event) {
-      event.data.forEach(el=>createInfiItem(el));
+      event.data.forEach(el => createInfoItem(el));
     }
   }
 }
+
+function getSelectOption(currenciesArr) {
+  formBtn.disabled = false;
+  return currenciesArr.forEach(el => createSelectCurItem(el));
+}
+
+function app() {
+  const currencies = [];
+  
+  if (window.Worker) {
+    worker = new Worker('../js/worker.js');
+  
+    worker.postMessage('GetCurrencies');
+  
+    worker.onmessage = function(event) {
+      event.data.forEach(el=>currencies.push(el));
+      getSelectOption(currencies);
+    }
+  }
+}
+
+app();

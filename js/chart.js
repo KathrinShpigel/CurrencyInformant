@@ -1,6 +1,6 @@
 'use strict';
 
-function buildWchedule(name, data, rangeDate) {
+function buildWchedule(name, data, categories) {
     return Highcharts.chart('container', {
         title: {
             text: '1 доллар (USD) в белорусских рублях (BYN)'
@@ -21,7 +21,11 @@ function buildWchedule(name, data, rangeDate) {
                 rangeDescription: 'Range: 2010 to 2017'
             }
         },
-      
+
+        xAxis: {
+            categories
+        },
+
         legend: {
             layout: 'horizontal',
             align: 'center',
