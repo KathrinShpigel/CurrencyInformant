@@ -96,6 +96,9 @@ function app() {
 
   getInfo();
   getSelectOption();
+
+  selectDateStart.max = getToday();
+  selectDateEnd.max = getToday();
   
   drawBtn.addEventListener('click', () => {
     const curID = selectCurList.value;
