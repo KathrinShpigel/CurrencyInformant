@@ -1,9 +1,9 @@
 'use strict';
 
-function buildWchedule(name, data, rangeDate) {
+function buildSchedule(cur, data, categories) {
     return Highcharts.chart('container', {
         title: {
-            text: '1 доллар (USD) в белорусских рублях (BYN)'
+            text: `${ cur.Cur_Scale } ${ cur.Cur_Name } (${ cur.Cur_Abbreviation }) в белорусских рублях (BYN)`
         },
       
         subtitle: {
@@ -18,10 +18,11 @@ function buildWchedule(name, data, rangeDate) {
       
         xAxis: {
             accessibility: {
-                rangeDescription: 'Range: 2010 to 2017'
-            }
+                rangeDescription: `Range: ${ categories[0] } to ${ categories[categories.length - 1] }`
+            },
+            categories
         },
-      
+
         legend: {
             layout: 'horizontal',
             align: 'center',
@@ -34,12 +35,12 @@ function buildWchedule(name, data, rangeDate) {
                 label: {
                     connectorAllowed: false
                 },
-                pointStart: 2010
+                
             }
         },
       
         series: [{
-            name,
+            name: cur.Cur_Name,
             data
         }],
       

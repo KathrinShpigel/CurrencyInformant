@@ -6,6 +6,7 @@
     <meta name="description" content="Валютный информатор: курс валют Национального банка Республики Беларусь">
     <meta name="Keywords" content="курс валют"> 
     <title>Currency informant</title>
+    <link rel="shortcut icon" href="./favicon/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -40,13 +41,18 @@
                     </select>
                 </div>
                 <div class="select__wrapper">
-                    <label class="select__label" for="select-data">Дата:</label>
-                    <select class="form__select select__data" id="select-data" size="1" name="data[]">
-                    </select>
+                    <label for="start">Период с </label>
+                    <input class="form__select select__date-start" type="date" id="start" name="trip-start"
+                        value="2020-09-30"
+                        min="1991-01-01" max="2020-09-30">
+                    <label for="end"> по </label>
+                    <input class="form__select select__date-end" type="date" id="end" name="trip-end"
+                        value="2020-09-30"
+                        min="1991-01-01" max="2020-09-30">
                 </div>
                 <div class="select__wrapper">
-                    <label class="select__label" for="select-period">Период:</label>
-                    <select class="form__select select__period" id="select-period" size="1" name="period[]">
+                    <label class="select__label" for="select-interval">Интервал:</label>
+                    <select class="form__select select__interval" id="select-interval" size="1" name="period[]">
                         <option class="form__option" value="oneDay">1 день</option>
                         <option class="form__option" value="oneWeek">1 неделя</option>
                         <option class="form__option" value="oneMonth">1 месяц</option>
@@ -54,7 +60,7 @@
                         <option class="form__option" value="fiveYear">5 лет</option>
                     </select>
                 </div>
-                <button class="form__btn" type="button" value="Отправить" disabled>Получить данные</button>
+                <button class="form__btn draw__btn" type="button" value="Отправить" disabled>Получить данные</button>
             </form>
             <div class="chart">
                 <figure class="highcharts-figure">
@@ -79,6 +85,8 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="./js/chart.js"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script src="./js/date.js"></script>
     <script src="./js/index.js"></script>
 </body>
 </html>

@@ -2,14 +2,17 @@
 
 const infoList = document.querySelector('.info__list');
 const selectCurList = document.querySelector('.select__cur');
-const selectDate = document.querySelector('.select__period');
-const formBtn = document.querySelector('.form__btn');
-let worker;
+const selectDateStart = document.querySelector('.select__date-start');
+const selectDateEnd = document.querySelector('.select__date-end');
+const selectInterval = document.querySelector('.select__interval');
+const drawBtn = document.querySelector('.draw__btn');
 
-function createInfiItem(obj) {
+const currencies = [];
+
+function createInfoItem(obj) {
   const div = document.createElement('div');
   const [flag, znak] = (obj.rateToday >= obj.rateYesterday) ? ['up', '+'] : ['down', ''];
-  const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(4);
+  const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(2);
   div.className = `info__content change__${flag}`;
   div.innerHTML = `
     <div class="content__top">
@@ -21,8 +24,8 @@ function createInfiItem(obj) {
       Вчера: <span class="bottom__value" title="22/09">${obj.rateYesterday}</span> BYN
       <span class="change__info">(${znak}${rateChange})</span>
     </div>
-    `;
-    infoList.append(div);
+  `;
+  infoList.append(div);
 }
 
 function createSelectCurItem(obj) {
@@ -33,38 +36,42 @@ function createSelectCurItem(obj) {
   selectCurList.append(option);
 }
 
+selectDateStart.max = getToday();
+selectDateEnd.max = getToday();
+
 if (window.Worker) {
-  worker = new Worker('../js/worker.js');
+  const worker = new Worker('../js/worker.js');
 
-  worker.postMessage('GetCurrencies');
-
+  worker.postMessage({ msg:'GetInfo' });
+  worker.postMessage({ msg:'GetCurDinAll',
+    data: { 
+      curName: 'Австралийский доллар',
+      curID: 170,
+      startDate: subtractInterval(getToday(), {count: 7, deg: 'day'}),
+      endDate: getToday(),
+    }
+  });
+  
   worker.onmessage = function(event) {
-    event.data.forEach(el=>createSelectCurItem(el));
-    formBtn.disabled = false;
-  }
-  getInfo();
-  getSchedule();
-}
+    const data = event.data;
+    const resolve = data.data;
+    switch (data.msg) {
+      
+      case 'GetInfo':
+        resolve.forEach(el => createInfoItem(el));
+        break;
 
-function getSchedule() {
-  if (window.Worker) {
-    worker = new Worker('../js/worker.js');
+      case 'GetCurrencies':
+        resolve.forEach(el => createSelectCurItem(el));
+        drawBtn.disabled = false;
+        break;
 
-    worker.postMessage('GetDynamics');
-  
-    worker.onmessage = function(event) {
+      case 'GetDynamics':
+        buildSchedule(resolve.rate, resolve.data, resolve.categories);
+        break;
     }
-  }
-}
-
-function getInfo() {
-  if (window.Worker) {
-    worker = new Worker('../js/worker.js');
-
-    worker.postMessage('GetInfo');
-  
-    worker.onmessage = function(event) {
-      event.data.forEach(el=>createInfiItem(el));
-    }
-  }
+    
+  }  
+} else {
+	console.log('Your browser doesn\'t support web workers.')
 }
