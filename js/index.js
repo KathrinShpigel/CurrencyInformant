@@ -12,7 +12,7 @@ const currencies = [];
 function createInfoItem(obj) {
   const div = document.createElement('div');
   const [flag, znak] = (obj.rateToday >= obj.rateYesterday) ? ['up', '+'] : ['down', ''];
-  const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(4);
+  const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(2);
   div.className = `info__content change__${flag}`;
   div.innerHTML = `
     <div class="content__top">
@@ -43,38 +43,31 @@ if (window.Worker) {
   const worker = new Worker('../js/worker.js');
 
   worker.postMessage({ msg:'GetInfo' });
-  worker.postMessage({ msg:'GetCurrencies' });
-  worker.postMessage({ msg:'GetDynamics',
+  worker.postMessage({ msg:'GetCurDinAll',
     data: { 
       curName: 'Австралийский доллар',
       curID: 170,
-      startDate: subtractInerval(getToday(), {count: 7, deg: 'day'}),
-      endDate: getToday()
+      startDate: subtractInterval(getToday(), {count: 7, deg: 'day'}),
+      endDate: getToday(),
     }
   });
   
   worker.onmessage = function(event) {
-    const resolve = event.data;
-    switch (resolve.msg) {
-
+    const data = event.data;
+    const resolve = data.data;
+    switch (data.msg) {
+      
       case 'GetInfo':
-        resolve.data.forEach(el => createInfoItem(el));
+        resolve.forEach(el => createInfoItem(el));
         break;
 
       case 'GetCurrencies':
-        resolve.data.forEach(el=>currencies.push(el));
-        currencies.forEach(el => createSelectCurItem(el));
+        resolve.forEach(el => createSelectCurItem(el));
         drawBtn.disabled = false;
         break;
 
       case 'GetDynamics':
-        const curOfficialRate = resolve.data.data;
-        const categories = resolve.data.categories.map(el => formatDate(el, 'YYYY-MM-DD','DD.MM.YYYY'));
-        console.log(currencies);
-        const cur = currencies.find(el => el.Cur_ID === 170);
-        console.log(currencies.find(el => el.Cur_ID === 170));
-        console.log(cur);
-        buildSchedule(cur, curOfficialRate, categories);
+        buildSchedule(resolve.rate, resolve.data, resolve.categories);
         break;
     }
     
