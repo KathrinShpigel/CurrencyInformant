@@ -80,26 +80,3 @@ onmessage = function(event) {
       break;
   }
 }
-
-const info = [
-    {
-      rateName: "USD",
-      rateToday: 2.5905,
-      rateYesterday: 2.5833,
-    },
-    {
-      rateName: "EUR",
-      rateToday: 3.0398,
-      rateYesterday: 3.0555,
-    },
-    {
-      rateName: "RUB",
-      rateToday: 3.3975,
-      rateYesterday: 3.3978,
-    },
-    {
-      rateName: "UAH",
-      rateToday: 9.1883,
-      rateYesterday: 9.1528,
-    },
-];
