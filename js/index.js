@@ -8,15 +8,6 @@ const selectInterval = document.querySelector('.select__interval');
 const drawBtn = document.querySelector('.draw__btn');
 
 const currencies = [];
-const interval = {
-  oneDay: [1, 'DD.MM.YYYY'],
-  oneWeek: [7, 'DD.MM.YYYY'],
-  oneMonth: [1, 'MM.YYYY'],
-  oneYear: [1, 'YYYY'],
-  fiveYear: [5, 'YYYY'],
-}
-
-let worker;
 
 function createInfoItem(obj) {
   const div = document.createElement('div');
@@ -45,69 +36,28 @@ function createSelectCurItem(obj) {
   selectCurList.append(option);
 }
 
-function getSelectOption(currenciesArr) {
-  if (window.Worker) {
-    worker = new Worker('../js/worker.js');
+selectDateStart.max = getToday();
+selectDateEnd.max = getToday();
+
+if (window.Worker) {
+  const worker = new Worker('../js/worker.js');
+
+  worker.postMessage({ msg:'GetInfo' });
+  worker.postMessage({ msg:'GetCurrencies' });
   
-    worker.postMessage('GetCurrencies');
-  
-    worker.onmessage = function(event) {
-      event.data.forEach(el=>currencies.push(el));
-      currencies.forEach(el => createSelectCurItem(el));
+  worker.onmessage = function(event) {
+    const resolve = event.data;
+    switch (resolve.msg) {
+
+      case 'GetInfo':
+        resolve.data.forEach(el => createInfoItem(el));
+        break;
+
+      case 'GetCurrencies':
+        resolve.data.forEach(el=>currencies.push(el));
+        currencies.forEach(el => createSelectCurItem(el));
+        drawBtn.disabled = false;
+        break;
     }
-  }
-  drawBtn.disabled = false;
+  }  
 }
-
-function getSchedule(id, dateFrom, dateTo, range) {
-  if (window.Worker) {
-    worker = new Worker('../js/worker.js');
-
-    worker.postMessage('GetDynamics');
-  
-    worker.onmessage = function(event) {
-      const data = event.data;
-
-      const cur = currencies.find(el => el.Cur_ID === data[0].Cur_ID);
-
-      const date = data.map(el => formatDate(el.Date, "YYYY-MM-DD", range[1]));
-
-      const dataOfficialRate = data.map(el => el.Cur_OfficialRate);
-      
-
-      buildSchedule(cur, dataOfficialRate, date);
-    }
-  }
-}
-
-function getInfo() {
-  if (window.Worker) {
-    worker = new Worker('../js/worker.js');
-
-    worker.postMessage('GetInfo');
-  
-    worker.onmessage = function(event) {
-      event.data.forEach(el => createInfoItem(el));
-    }
-  }
-}
-
-function app() {
-
-  getInfo();
-  getSelectOption();
-
-  selectDateStart.max = getToday();
-  selectDateEnd.max = getToday();
-  
-  drawBtn.addEventListener('click', () => {
-    const curID = selectCurList.value;
-    const dateStart = selectDateStart.value;
-    const dateEnd = selectDateEnd.value;
-    const range = interval[selectInterval.value];
-    getSchedule(curID, dateStart, dateEnd, range);
-  });
-}
-
-app();
-
