@@ -1,9 +1,9 @@
 'use strict';
 
-function buildSchedule(obj, data, categories, interval) {
+function buildSchedule(cur, data, categories) {
     return Highcharts.chart('container', {
         title: {
-            text: `${ obj.Cur_Scale } ${ obj.Cur_Name } (${ obj.Cur_Abbreviation }) в белорусских рублях (BYN)`
+            text: `${ cur.Cur_Scale } ${ cur.Cur_Name } (${ cur.Cur_Abbreviation }) в белорусских рублях (BYN)`
         },
       
         subtitle: {
@@ -17,9 +17,6 @@ function buildSchedule(obj, data, categories, interval) {
         },
       
         xAxis: {
-            //tickInterval: 7 * 24 * 3600 * 1000, // one week
-            //tickWidth: 0,
-            //gridLineWidth: 1,
             accessibility: {
                 rangeDescription: `Range: ${ categories[0] } to ${ categories[categories.length - 1] }`
             },
@@ -43,7 +40,7 @@ function buildSchedule(obj, data, categories, interval) {
         },
       
         series: [{
-            name: obj.Cur_Name,
+            name: cur.Cur_Name,
             data
         }],
       

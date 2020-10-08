@@ -44,6 +44,14 @@ if (window.Worker) {
 
   worker.postMessage({ msg:'GetInfo' });
   worker.postMessage({ msg:'GetCurrencies' });
+  worker.postMessage({ msg:'GetDynamics',
+    data: { 
+      curName: 'Австралийский доллар',
+      curID: 170,
+      startDate: subtractInerval(getToday(), {count: 7, deg: 'day'}),
+      endDate: getToday()
+    }
+  });
   
   worker.onmessage = function(event) {
     const resolve = event.data;
@@ -58,6 +66,19 @@ if (window.Worker) {
         currencies.forEach(el => createSelectCurItem(el));
         drawBtn.disabled = false;
         break;
+
+      case 'GetDynamics':
+        const curOfficialRate = resolve.data.data;
+        const categories = resolve.data.categories.map(el => formatDate(el, 'YYYY-MM-DD','DD.MM.YYYY'));
+        console.log(currencies);
+        const cur = currencies.find(el => el.Cur_ID === 170);
+        console.log(currencies.find(el => el.Cur_ID === 170));
+        console.log(cur);
+        buildSchedule(cur, curOfficialRate, categories);
+        break;
     }
+    
   }  
+} else {
+	console.log('Your browser doesn\'t support web workers.')
 }

@@ -1,11 +1,12 @@
 'use strict';
 
 const requestURLCurrency = 'https://www.nbrb.by/api/exrates/rates?periodicity=0';
-let requestURLDynamics = 'https://www.nbrb.by/API/ExRates/Rates/Dynamics';
+const requestURLDynamics = 'https://www.nbrb.by/API/ExRates/Rates/Dynamics/';
 
-onmessage = function(request) {
-  switch(request.data.msg) {
-    case 'GetInfo':;
+onmessage = function(event) {
+  const request = event.data;
+  switch(request.msg) {
+    case 'GetInfo':
       postMessage(createResolve('GetInfo', info));
       break;
 
@@ -14,15 +15,27 @@ onmessage = function(request) {
         .then(response => response.json())
         .then(data => postMessage(createResolve('GetCurrencies', data)));
       break;
-      
+
     case 'GetDynamics':
-      postMessage(dynamics);
+      fetch(createUrlDinamics(request.data))
+        .then(response => response.json())
+        .then(response => {
+            return { 
+                data: response.map(el => el.Cur_OfficialRate),
+                categories: response.map(el => el.Date)
+            }
+        })
+        .then(data => postMessage(createResolve('GetDynamics', data)));
       break;
   }
 }
 
 function createResolve(msg, data) {
     return { msg, data };
+}
+
+function createUrlDinamics(data) {
+    return requestURLDynamics + `${data.curID}?startDate=${data.startDate}T00:00:00&endDate=${data.endDate}T00:00:00`;
 }
 
 const info = [
