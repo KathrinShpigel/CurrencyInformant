@@ -48,13 +48,14 @@ function getCurrencies(url) {
 }
 
 function getDynamics(request, currencies) {
-  return fetch(createUrlDinamics(request.data))
+  
+  return fetch(createUrlDinamics(request.change))
     .then(response => response.json())
     .then(response => {
       return {
         data: response.map(el => el.Cur_OfficialRate),
         categories: response.map(el => formatDate(el.Date, 'YYYY-MM-DD','DD.MM.YYYY')),
-        rate: currencies.find(el => el.Cur_ID === 170),
+        rate: currencies,
       }
     })
     .then(data => postMessage(createResolve('GetDynamics', data)));
@@ -71,7 +72,8 @@ onmessage = function(event) {
     case 'GetCurDinAll':
       getCurrencies(requestURLCurrency)
         .then(data => {
-          getDynamics(request, data);
+          request.change.curID = data[0].Cur_ID;
+          getDynamics(request, data[0]);
         });
       break;
 

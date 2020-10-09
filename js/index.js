@@ -8,8 +8,6 @@ const selectDateEnd = document.querySelector('.select__date-end');
 const selectInterval = document.querySelector('.select__interval');
 const drawBtn = document.querySelector('.draw__btn');
 
-const currencies = [];
-
 function createInfoItem(obj) {
   const [flag, znak] = (Number(obj.rateToday) >= Number(obj.rateYesterday)) ? ['up', '+'] : ['down', ''];
   const rateChange = ((obj.rateToday*10000 - obj.rateYesterday*10000)/10000).toFixed(4);
@@ -80,6 +78,8 @@ function createSelectCurItem(obj) {
 
 selectDateStart.max = getToday();
 selectDateEnd.max = getToday();
+selectDateStart.value = subtractInterval(getToday(), {count: 7, deg: 'day'});
+selectDateEnd.value = getToday();
 infoTime[0].dateTime = getToday();
 infoTime[1].dateTime = subtractInterval(getToday(), {count: 1, deg: 'day'});
 infoTime[0].textContent = formatDate(getToday(), 'YYYY-MM-DD','DD/MM');
@@ -88,15 +88,15 @@ infoTime[1].textContent = formatDate(subtractInterval(getToday(), {count: 1, deg
 
 if (window.Worker) {
   const worker = new Worker('../js/worker.js');
+  const currencies = [];
+  const change = {
+    startDate: subtractInterval(getToday(), {count: 7, deg: 'day'}),
+    endDate: getToday(),
+  };
 
   worker.postMessage({ msg:'GetInfo' });
   worker.postMessage({ msg:'GetCurDinAll',
-    data: { 
-      curName: 'Австралийский доллар',
-      curID: 170,
-      startDate: subtractInterval(getToday(), {count: 7, deg: 'day'}),
-      endDate: getToday(),
-    }
+  change
   });
   
   worker.onmessage = function(event) {
@@ -109,8 +109,12 @@ if (window.Worker) {
         break;
 
       case 'GetCurrencies':
-        resolve.forEach(el => createSelectCurItem(el));
+        resolve.forEach(el => {
+          currencies.push(el);
+          createSelectCurItem(el);
+        });
         drawBtn.disabled = false;
+        change.curID = resolve[0].Cur_ID;
         break;
 
       case 'GetDynamics':
@@ -118,7 +122,26 @@ if (window.Worker) {
         break;
     }
     
-  }  
+  }
+
+  selectCurList.addEventListener('click', () => change.curID = selectCurList.value);
+
+  selectDateStart.addEventListener('change', () => change.startDate = selectDateStart.value);
+
+  selectDateEnd.addEventListener('change', () => change.endDate = selectDateEnd.value);
+
+  selectInterval.addEventListener('click', () => console.log(change));
+
+  drawBtn.addEventListener('click', () => {
+    if (new Date(change.startDate).getTime() > new Date(change.endDate).getTime()) {
+      drawBtn.classList.add('btn__error');
+      throw ('Неверно указан период. Дата начала периода не может быть больше даты окончания периода.');
+    }
+    drawBtn.classList.remove('btn__error');
+
+
+  });
+
 } else {
 	console.log('Your browser doesn\'t support web workers.')
 }
