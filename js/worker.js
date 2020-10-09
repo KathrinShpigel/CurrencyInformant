@@ -4,6 +4,7 @@ importScripts('https://unpkg.com/dayjs@1.8.21/dayjs.min.js', '../js/date.js');
 
 const requestURLCurrency = 'https://www.nbrb.by/api/exrates/rates?periodicity=0';
 const requestURLDynamics = 'https://www.nbrb.by/API/ExRates/Rates/Dynamics/';
+const currencies = [];
 
 function createResolve(msg, data) {
   return { msg, data };
@@ -43,19 +44,20 @@ function getCurrencies(url) {
     .then(response => response.json())
     .then(data => {
         postMessage(createResolve('GetCurrencies', data));
+        data.forEach(el => currencies.push(el));
         return data;
     });
 }
 
 function getDynamics(request, currencies) {
   
-  return fetch(createUrlDinamics(request.change))
+  return fetch(createUrlDinamics(request))
     .then(response => response.json())
     .then(response => {
       return {
         data: response.map(el => el.Cur_OfficialRate),
         categories: response.map(el => formatDate(el.Date, 'YYYY-MM-DD','DD.MM.YYYY')),
-        rate: currencies,
+        rate: currencies.find(el => el.Cur_ID === request.curID),
       }
     })
     .then(data => postMessage(createResolve('GetDynamics', data)));
@@ -73,12 +75,12 @@ onmessage = function(event) {
       getCurrencies(requestURLCurrency)
         .then(data => {
           request.change.curID = data[0].Cur_ID;
-          getDynamics(request, data[0]);
+          getDynamics(request.change, data);
         });
       break;
 
     case 'GetDynamics':
-      getDynamics(request);
+      getDynamics(request.change, currencies);
       break;
   }
 }

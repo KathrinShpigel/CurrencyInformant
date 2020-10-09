@@ -88,7 +88,6 @@ infoTime[1].textContent = formatDate(subtractInterval(getToday(), {count: 1, deg
 
 if (window.Worker) {
   const worker = new Worker('../js/worker.js');
-  const currencies = [];
   const change = {
     startDate: subtractInterval(getToday(), {count: 7, deg: 'day'}),
     endDate: getToday(),
@@ -108,7 +107,6 @@ if (window.Worker) {
 
       case 'GetCurrencies':
         resolve.forEach(el => {
-          currencies.push(el);
           createSelectCurItem(el);
         });
         selectCurList.disabled = false;
@@ -123,7 +121,7 @@ if (window.Worker) {
     
   }
 
-  selectCurList.addEventListener('click', () => change.curID = selectCurList.value);
+  selectCurList.addEventListener('click', () => change.curID = Number(selectCurList.value));
 
   selectDateStart.addEventListener('change', () => change.startDate = selectDateStart.value);
 
@@ -138,7 +136,7 @@ if (window.Worker) {
     }
     drawBtn.classList.remove('btn__error');
 
-
+    worker.postMessage({ msg:'GetDynamics', change });
   });
 
 } else {
