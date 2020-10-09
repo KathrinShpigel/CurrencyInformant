@@ -71,8 +71,8 @@ body {
 }
 .info__content {
     cursor: pointer;
-    min-width: 150px;
-    padding: 5px 10px;
+    min-width: 182px;
+    padding: 5px 10px 5px 15px;
     border-left: 1px solid rgba(128, 128, 128, .4);
 }
 .content__bottom {
@@ -96,8 +96,13 @@ body {
     font-weight: 700;
 }
 .top__img {
+    margin-left: 3px;
     width: 30px;
     height: 15px;
+    transition: all .3s;
+}
+.info__content:hover .top__img{
+    transform: scaleY(1.2);
 }
 .bottom__value {
     font-weight: 700;
