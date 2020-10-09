@@ -27,6 +27,7 @@
                             <time class="info__time"></time>
                         </div>
                     </div>
+                    <!-- here template--->
                 </div>            
             </div>
         </div>
@@ -38,6 +39,7 @@
                 <div class="select__wrapper">
                     <label class="select__label" for="select-cur">Валюта:</label>
                     <select class="form__select select__cur" id="select-cur" size="1" name="cur[]">
+                        <!-- here template--->
                     </select>
                 </div>
                 <div class="select__wrapper">
@@ -79,6 +81,25 @@
             </address>
         </div>
     </footer>
+
+    <template id="info-content">
+        <div class="info__content">
+            <div class="content__top">
+                <span class="top__name"></span>
+                <span class="top__value"></span> BYN
+                <img class="top__img" alt="changing">
+            </div>
+            <div class="content__bottom">
+                Вчера: <span class="bottom__value"></span> BYN
+                <span class="change__info"></span>
+            </div>
+        </div>
+    </template>
+    
+    <template id="form-option">
+        <option class="form__option"></option>
+    </template> 
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>

@@ -29,7 +29,7 @@ function getInfo() {
       for (let i = 0; i < data.length; i++) {
         info.push({
           rateName: rates[i],
-          rateToday: (data[i][1].Cur_OfficialRate).toFixed(4),
+          rateToday: data[i][1].Cur_OfficialRate.toFixed(4),
           rateYesterday: data[i][0].Cur_OfficialRate.toFixed(4),
         });
       }

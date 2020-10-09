@@ -97,6 +97,7 @@ body {
 }
 .top__img {
     margin-left: 3px;
+    margin-right: 5px;
     width: 30px;
     height: 15px;
     transition: all .3s;
