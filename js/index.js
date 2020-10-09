@@ -95,9 +95,7 @@ if (window.Worker) {
   };
 
   worker.postMessage({ msg:'GetInfo' });
-  worker.postMessage({ msg:'GetCurDinAll',
-  change
-  });
+  worker.postMessage({ msg:'GetCurDinAll', change });
   
   worker.onmessage = function(event) {
     const data = event.data;
@@ -113,6 +111,7 @@ if (window.Worker) {
           currencies.push(el);
           createSelectCurItem(el);
         });
+        selectCurList.disabled = false;
         drawBtn.disabled = false;
         change.curID = resolve[0].Cur_ID;
         break;
