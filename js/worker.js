@@ -4,6 +4,7 @@ importScripts('https://unpkg.com/dayjs@1.8.21/dayjs.min.js', '../js/date.js');
 
 const requestURLCurrency = 'https://www.nbrb.by/api/exrates/rates?periodicity=0';
 const requestURLDynamics = 'https://www.nbrb.by/API/ExRates/Rates/Dynamics/';
+const currencies = [];
 
 function createResolve(msg, data) {
   return { msg, data };
@@ -29,8 +30,8 @@ function getInfo() {
       for (let i = 0; i < data.length; i++) {
         info.push({
           rateName: rates[i],
-          rateToday: data[i][1].Cur_OfficialRate.toFixed(2),
-          rateYesterday: data[i][0].Cur_OfficialRate.toFixed(2),
+          rateToday: data[i][1].Cur_OfficialRate.toFixed(4),
+          rateYesterday: data[i][0].Cur_OfficialRate.toFixed(4),
         });
       }
       return info;
@@ -43,18 +44,20 @@ function getCurrencies(url) {
     .then(response => response.json())
     .then(data => {
         postMessage(createResolve('GetCurrencies', data));
+        data.forEach(el => currencies.push(el));
         return data;
     });
 }
 
 function getDynamics(request, currencies) {
-  return fetch(createUrlDinamics(request.data))
+  
+  return fetch(createUrlDinamics(request))
     .then(response => response.json())
     .then(response => {
       return {
         data: response.map(el => el.Cur_OfficialRate),
         categories: response.map(el => formatDate(el.Date, 'YYYY-MM-DD','DD.MM.YYYY')),
-        rate: currencies.find(el => el.Cur_ID === 170),
+        rate: currencies.find(el => el.Cur_ID === request.curID),
       }
     })
     .then(data => postMessage(createResolve('GetDynamics', data)));
@@ -71,35 +74,13 @@ onmessage = function(event) {
     case 'GetCurDinAll':
       getCurrencies(requestURLCurrency)
         .then(data => {
-          getDynamics(request, data);
+          request.change.curID = data[0].Cur_ID;
+          getDynamics(request.change, data);
         });
       break;
 
     case 'GetDynamics':
-      getDynamics(request);
+      getDynamics(request.change, currencies);
       break;
   }
 }
-
-const info = [
-    {
-      rateName: "USD",
-      rateToday: 2.5905,
-      rateYesterday: 2.5833,
-    },
-    {
-      rateName: "EUR",
-      rateToday: 3.0398,
-      rateYesterday: 3.0555,
-    },
-    {
-      rateName: "RUB",
-      rateToday: 3.3975,
-      rateYesterday: 3.3978,
-    },
-    {
-      rateName: "UAH",
-      rateToday: 9.1883,
-      rateYesterday: 9.1528,
-    },
-];
