@@ -21,12 +21,13 @@
                 <div class="info__list">
                     <div class="info__titles">
                         <div class="info__title">Курсы НБРБ на
-                            <time class="info__time" datetime="2020-09-08">23/09</time>
+                            <time class="info__time"></time>
                         </div>
                         <div class="info__subtitle">Курсы валют НБРБ на
-                            <time class="info__time" datetime="2020-09-07">22/09</time>
+                            <time class="info__time"></time>
                         </div>
                     </div>
+                    <!-- here template--->
                 </div>            
             </div>
         </div>
@@ -37,18 +38,15 @@
             <form class="form">
                 <div class="select__wrapper">
                     <label class="select__label" for="select-cur">Валюта:</label>
-                    <select class="form__select select__cur" id="select-cur" size="1" name="cur[]">
+                    <select class="form__select select__cur" id="select-cur" size="1" name="cur[]" disabled>
+                        <!-- here template--->
                     </select>
                 </div>
                 <div class="select__wrapper">
                     <label for="start">Период с </label>
-                    <input class="form__select select__date-start" type="date" id="start" name="trip-start"
-                        value="2020-09-30"
-                        min="1991-01-01" max="2020-09-30">
+                    <input class="form__select select__date-start" type="date" id="start" name="trip-start" min="1991-01-01">
                     <label for="end"> по </label>
-                    <input class="form__select select__date-end" type="date" id="end" name="trip-end"
-                        value="2020-09-30"
-                        min="1991-01-01" max="2020-09-30">
+                    <input class="form__select select__date-end" type="date" id="end" name="trip-end" min="1991-01-01">
                 </div>
                 <div class="select__wrapper">
                     <label class="select__label" for="select-interval">Интервал:</label>
@@ -79,6 +77,25 @@
             </address>
         </div>
     </footer>
+
+    <template id="info-content">
+        <div class="info__content">
+            <div class="content__top">
+                <span class="top__name"></span>
+                <span class="top__value"></span> BYN
+                <img class="top__img" alt="changing">
+            </div>
+            <div class="content__bottom">
+                Вчера: <span class="bottom__value"></span> BYN
+                <span class="change__info"></span>
+            </div>
+        </div>
+    </template>
+    
+    <template id="form-option">
+        <option class="form__option"></option>
+    </template> 
+
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
